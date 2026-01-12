@@ -14,7 +14,7 @@ export const projects = [
     description: "Personal portfolio to showcase projects, skills, and contact info.",
     tech: ["React", "Vite"],
     live: "https://your-live-link.com",
-    github: "https://github.com/yourname/portfolio",
+    github: "https://github.com/ainthrmo/portfolio",
     image: "/projects/portfolio.png",
   },
   {
@@ -23,7 +23,7 @@ export const projects = [
     description: "Small project showing API fetch + loading/error states.",
     tech: ["React", "API", "CSS"],
     live: "https://your-live-link.com",
-    github: "https://github.com/yourname/mini-app",
+    github: "https://github.com/ainthrmo/mini-app",
     image: "/projects/mini-app.png",
   },
 ];
