@@ -1,112 +1,78 @@
-import ProjectCard from "../components/ProjectCard";
-import { projects } from "../data/projects";
-
 export default function Home() {
   return (
     <main>
-      {/* HERO ... keep as is */}
-
-      {/* PROJECTS */}
-      <section id="projects" className="section">
-        <div className="container">
-          <h2>Projects</h2>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-              gap: 16,
-              marginTop: 20,
-            }}
-          >
-            {projects.map((p) => (
-              <ProjectCard key={p.id} project={p} />
-            ))}
+      <section className="section">
+        <div className="container hero-shell progressive" style={{ "--delay": "0s" }}>
+          <div className="hero-console">
+            <span
+              className="typing"
+              style={{ "--delay": "0s", "--chars": "36", "--duration": "1.2s" }}
+            >
+              &gt; running ./portfolio --theme=ascii
+            </span>
+            <span
+              className="typing"
+              style={{ "--delay": "0.18s", "--chars": "32", "--duration": "1s" }}
+            >
+              &gt; system: midnight monochrome
+            </span>
+          </div>
+          <h1 className="hero-title typing" style={{ "--delay": "0.3s", "--chars": "20" }}>
+            Aindra Moh
+          </h1>
+          <p className="ascii-note" style={{ marginTop: 10, display: "flex", flexDirection: "column", gap: 6 }}>
+            <span className="typing block" style={{ "--delay": "0.45s", "--chars": "54" }}>
+              Junior frontend engineer building statement pieces in pure black-and-white.
+            </span>
+            <span className="typing block" style={{ "--delay": "0.62s", "--chars": "66" }}>
+              I enjoy reducing complexity until every interaction feels like typing on a familiar terminal.
+            </span>
+          </p>
+          <div className="hero-actions">
+            <a className="btn" href="mailto:wanderertidal@email.com">
+              Email
+            </a>
+            <a className="btn" href="https://github.com/ainthrmo" target="_blank" rel="noreferrer">
+              GitHub
+            </a>
           </div>
         </div>
       </section>
 
-      {/* ABOUT */}
-<section id="about" className="section">
-  <div className="container">
-    <h2 style={{ margin: "0 0 12px" }}>About</h2>
-
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "1.4fr 1fr",
-        gap: 18,
-        alignItems: "start",
-      }}
-    >
-      <div className="card">
-        <h3 style={{ margin: 0 }}>Hi, I’m AindraMoh 👋</h3>
-        <p style={{ margin: "10px 0 0", color: "var(--muted)" }}>
-          I’m a junior developer focused on building clean, responsive web apps.
-          I enjoy turning ideas into simple UI that feels fast and easy to use.
-        </p>
-        <p style={{ margin: "10px 0 0", color: "var(--muted)" }}>
-          Right now I’m improving my React fundamentals, project structure, and deployment workflow.
-        </p>
-      </div>
-
-      <div className="card">
-        <h3 style={{ margin: 0 }}>Skills</h3>
-
-        <div style={{ marginTop: 12, display: "grid", gap: 12 }}>
-          <div>
-            <p style={{ margin: 0, fontWeight: 600 }}>Frontend</p>
-            <p style={{ margin: "6px 0 0", color: "var(--muted)" }}>
-              React, Vite, HTML, CSS, Responsive UI
-            </p>
+      <section className="section progressive" style={{ "--delay": "0.4s" }}>
+        <div className="container">
+          <div className="ascii-title">
+            <span
+              className="typing"
+              style={{ "--delay": "0.42s", "--chars": "16", "--duration": "0.9s" }}
+            >
+              ┌─ CONTACT ─┐
+            </span>
           </div>
 
-          <div>
-            <p style={{ margin: 0, fontWeight: 600 }}>Tools</p>
-            <p style={{ margin: "6px 0 0", color: "var(--muted)" }}>
-              Git/GitHub, VS Code, npm
+          <div className="contact-card progressive" style={{ "--delay": "0.44s" }}>
+            <p className="ascii-note" style={{ margin: 0, display: "flex", flexDirection: "column", gap: 6 }}>
+              <span className="typing block" style={{ "--delay": "0.46s", "--chars": "74" }}>
+                Want to collaborate or need a clean build shipped with precision?
+              </span>
+              <span className="typing block" style={{ "--delay": "0.54s", "--chars": "50" }}>
+                Drop a line.
+              </span>
             </p>
-          </div>
-
-          <div>
-            <p style={{ margin: 0, fontWeight: 600 }}>Learning</p>
-            <p style={{ margin: "6px 0 0", color: "var(--muted)" }}>
-              TypeScript, APIs, Testing
-            </p>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <a className="btn" href="mailto:wanderertidal@email.com">
+                Email
+              </a>
+              <a className="btn" href="https://github.com/ainthrmo" target="_blank" rel="noreferrer">
+                GitHub
+              </a>
+              <a className="btn" href="https://linkedin.com/in/yourname" target="_blank" rel="noreferrer">
+                LinkedIn
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-
-    {/* Mobile fix */}
-    <style>{`
-      @media (max-width: 820px) {
-        #about .container > div { grid-template-columns: 1fr !important; }
-      }
-    `}</style>
-  </div>
-</section>
-
-
-       {/* CONTACT */}
-<section id="contact" className="section">
-  <div className="container">
-    <h2 style={{ margin: "0 0 12px" }}>Contact</h2>
-
-    <div className="card" style={{ display: "grid", gap: 12 }}>
-      <p style={{ margin: 0, color: "var(--muted)" }}>
-        Want to work together or have feedback? Send me a message.
-      </p>
-
-      <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-        <a className="btn" href="mailto:wanderertidal@email.com">Email Me</a>
-        <a className="btn" href="https://github.com/ainthrmo" target="_blank" rel="noreferrer">GitHub</a>
-        <a className="btn" href="https://linkedin.com/in/yourname" target="_blank" rel="noreferrer">LinkedIn</a>
-      </div>
-    </div>
-  </div>
-</section>
-
+      </section>
     </main>
   );
 }

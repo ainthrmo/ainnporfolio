@@ -1,58 +1,51 @@
-export default function ProjectCard({ project }) {
+export default function ProjectCard({ project, index = 0, baseDelay = 0 }) {
+  const totalDelay = (baseDelay ?? 0) + index * 0.08;
   return (
-    <article className="card" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      {project.image ? (
-        <div
-          style={{
-            borderRadius: 14,
-            overflow: "hidden",
-            border: "1px solid rgba(255,255,255,0.10)",
-          }}
-        >
-          <img
-            src={project.image}
-            alt={project.title}
-            style={{ width: "100%", height: 160, objectFit: "cover", display: "block" }}
-          />
-        </div>
-      ) : null}
+    <article
+      className="ascii-card progressive"
+      style={{ "--delay": `${totalDelay}s` }}
+    >
+      {project.image && (
+        <img src={project.image} alt={project.title} loading="lazy" />
+      )}
 
       <div>
-        <h3 style={{ margin: 0 }}>{project.title}</h3>
-        <p style={{ margin: "6px 0 0", color: "var(--muted)" }}>
-          {project.description}
-        </p>
+        <h3>{project.title}</h3>
+        <p className="ascii-note">{project.description}</p>
       </div>
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-        {project.tech.map((t) => (
-          <span
-            key={t}
-            style={{
-              fontSize: 12,
-              padding: "6px 10px",
-              borderRadius: 999,
-              border: "1px solid rgba(255,255,255,0.10)",
-              color: "var(--muted)",
-            }}
-          >
-            {t}
-          </span>
-        ))}
+      <div className="tag-row">
+        {project.tech.map((tech, techIndex) => {
+          const baseDelay = 0.3 + index * 0.04;
+          const delay = baseDelay + techIndex * 0.04;
+          return (
+            <span
+              className="tag tag-typing"
+              key={tech}
+              style={{
+                "--delay": `${delay}s`,
+                "--chars": tech.length + 2,
+                "--duration": "0.7s",
+              }}
+            >
+              {tech}
+            </span>
+          );
+        })}
       </div>
 
-      <div style={{ display: "flex", gap: 10, marginTop: "auto" }}>
-        {project.live ? (
+      <div className="action-row">
+        {project.live && (
           <a className="btn" href={project.live} target="_blank" rel="noreferrer">
-            Live Demo
+            live demo
           </a>
-        ) : null}
+        )}
 
-        {project.github ? (
+        {project.github && (
           <a className="btn" href={project.github} target="_blank" rel="noreferrer">
-            GitHub
+            github
           </a>
-        ) : null}
+        )}
       </div>
     </article>
   );
