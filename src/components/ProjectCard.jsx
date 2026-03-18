@@ -1,3 +1,5 @@
+import { playBlip } from "../utils/sounds";
+
 export default function ProjectCard({ project, index = 0, baseDelay = 0 }) {
   const totalDelay = (baseDelay ?? 0) + index * 0.08;
   return (
@@ -5,12 +7,15 @@ export default function ProjectCard({ project, index = 0, baseDelay = 0 }) {
       className="ascii-card progressive"
       style={{ "--delay": `${totalDelay}s` }}
     >
+      <div style={{ fontSize: "0.6rem", opacity: 0.5, marginBottom: -10 }}>
+        ┌───────────────────────────────────┐
+      </div>
       {project.image && (
         <img src={project.image} alt={project.title} loading="lazy" />
       )}
 
       <div>
-        <h3>{project.title}</h3>
+        <h3 style={{ fontSize: "1.1rem" }}>{project.title}</h3>
         <p className="ascii-note">{project.description}</p>
       </div>
 
@@ -36,16 +41,31 @@ export default function ProjectCard({ project, index = 0, baseDelay = 0 }) {
 
       <div className="action-row">
         {project.live && (
-          <a className="btn" href={project.live} target="_blank" rel="noreferrer">
-            live demo
+          <a
+            className="btn"
+            href={project.live}
+            target="_blank"
+            rel="noreferrer"
+            onMouseEnter={() => playBlip(660, 0.03)}
+          >
+            [ run_demo ]
           </a>
         )}
 
         {project.github && (
-          <a className="btn" href={project.github} target="_blank" rel="noreferrer">
-            github
+          <a
+            className="btn"
+            href={project.github}
+            target="_blank"
+            rel="noreferrer"
+            onMouseEnter={() => playBlip(660, 0.03)}
+          >
+            [ view_src ]
           </a>
         )}
+      </div>
+      <div style={{ fontSize: "0.6rem", opacity: 0.5, marginTop: 4 }}>
+        └───────────────────────────────────┘
       </div>
     </article>
   );
