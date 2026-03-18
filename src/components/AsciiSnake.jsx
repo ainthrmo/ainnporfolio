@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { playBlip } from "../utils/sounds";
 
-const GRID_SIZE = 20;
+const GRID_SIZE = 30;
 const INITIAL_SNAKE = [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }];
 const INITIAL_DIRECTION = { x: 0, y: -1 };
 
