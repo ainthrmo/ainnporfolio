@@ -1,36 +1,63 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { playBlip } from "../utils/sounds";
 
-const GRID_SIZE = 30;
-const INITIAL_SNAKE = [{ x: 10, y: 10 }, { x: 10, y: 11 }, { x: 10, y: 12 }];
+const getGridSize = () => (window.innerWidth < 480 ? 20 : 30);
 const INITIAL_DIRECTION = { x: 0, y: -1 };
 
 export default function AsciiSnake() {
-  const [snake, setSnake] = useState(INITIAL_SNAKE);
+  const [gridSize, setGridSize] = useState(getGridSize());
+  
+  // Define visible dimensions
+  const width = gridSize - 4;
+  const height = gridSize - 2;
+
+  const [snake, setSnake] = useState([]);
   const [food, setFood] = useState({ x: 5, y: 5 });
   const [direction, setDirection] = useState(INITIAL_DIRECTION);
   const [isGameOver, setIsGameOver] = useState(false);
   const [score, setScore] = useState(0);
   const [isPaused, setIsPaused] = useState(true);
+  const [lowPowerMode, setLowPowerMode] = useState(false);
   const gameLoopRef = useRef();
+
+  // Initialize snake based on visible dimensions
+  useEffect(() => {
+    const midX = Math.floor(width / 2);
+    const midY = Math.floor(height / 2);
+    setSnake([{ x: midX, y: midY }, { x: midX, y: midY + 1 }, { x: midX, y: midY + 2 }]);
+  }, [width, height]);
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const newSize = getGridSize();
+      if (newSize !== gridSize) {
+        setGridSize(newSize);
+        setIsGameOver(true);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [gridSize]);
 
   const generateFood = useCallback(() => {
     let newFood;
     while (true) {
       newFood = {
-        x: Math.floor(Math.random() * GRID_SIZE),
-        y: Math.floor(Math.random() * GRID_SIZE),
+        x: Math.floor(Math.random() * width),
+        y: Math.floor(Math.random() * height),
       };
-      // Ensure food doesn't spawn on snake
       if (!snake.some(segment => segment.x === newFood.x && segment.y === newFood.y)) break;
     }
     return newFood;
-  }, [snake]);
+  }, [snake, width, height]);
 
   const resetGame = () => {
-    setSnake(INITIAL_SNAKE);
+    const midX = Math.floor(width / 2);
+    const midY = Math.floor(height / 2);
+    setSnake([{ x: midX, y: midY }, { x: midX, y: midY + 1 }, { x: midX, y: midY + 2 }]);
     setDirection(INITIAL_DIRECTION);
-    setFood(generateFood());
+    setFood({ x: Math.floor(Math.random() * width), y: Math.floor(Math.random() * height) });
     setScore(0);
     setIsGameOver(false);
     setIsPaused(false);
@@ -38,19 +65,18 @@ export default function AsciiSnake() {
   };
 
   const moveSnake = useCallback(() => {
-    if (isPaused || isGameOver) return;
+    if (isPaused || isGameOver || snake.length === 0) return;
 
     setSnake((prevSnake) => {
       const head = { x: prevSnake[0].x + direction.x, y: prevSnake[0].y + direction.y };
 
-      // Wall collision
-      if (head.x < 0 || head.x >= GRID_SIZE || head.y < 0 || head.y >= GRID_SIZE) {
+      // Wall collision using visible dimensions
+      if (head.x < 0 || head.x >= width || head.y < 0 || head.y >= height) {
         setIsGameOver(true);
         playBlip(220, 0.1, 0.5);
         return prevSnake;
       }
 
-      // Self collision
       if (prevSnake.some(segment => segment.x === head.x && segment.y === head.y)) {
         setIsGameOver(true);
         playBlip(220, 0.1, 0.5);
@@ -59,7 +85,6 @@ export default function AsciiSnake() {
 
       const newSnake = [head, ...prevSnake];
 
-      // Food collision
       if (head.x === food.x && head.y === food.y) {
         setScore(s => s + 10);
         setFood(generateFood());
@@ -70,7 +95,7 @@ export default function AsciiSnake() {
 
       return newSnake;
     });
-  }, [direction, food, isGameOver, isPaused, generateFood]);
+  }, [direction, food, isGameOver, isPaused, generateFood, width, height, snake.length]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -88,37 +113,54 @@ export default function AsciiSnake() {
   }, [direction]);
 
   useEffect(() => {
-    gameLoopRef.current = setInterval(moveSnake, 200);
+    const interval = lowPowerMode ? 400 : 200;
+    gameLoopRef.current = setInterval(moveSnake, interval);
     return () => clearInterval(gameLoopRef.current);
-  }, [moveSnake]);
+  }, [moveSnake, lowPowerMode]);
 
   const renderGrid = () => {
-    let grid = [];
-    for (let y = 0; y < GRID_SIZE; y++) {
-      let row = "";
-      for (let x = 0; x < GRID_SIZE; x++) {
+    if (snake.length === 0) return null;
+    let grid = "";
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
         const isSnakeHead = snake[0].x === x && snake[0].y === y;
         const isSnakeBody = snake.some((s, i) => i !== 0 && s.x === x && s.y === y);
         const isFood = food.x === x && food.y === y;
 
-        if (isSnakeHead) row += "■ ";
-        else if (isSnakeBody) row += "□ ";
-        else if (isFood) row += "@ ";
-        else row += ". ";
+        if (isSnakeHead) grid += "■";
+        else if (isSnakeBody) grid += "□";
+        else if (isFood) grid += "@";
+        else grid += "·";
+        
+        if (x < width - 1) grid += " ";
       }
-      grid.push(<div key={y}>{row}</div>);
+      grid += "\n";
     }
     return grid;
   };
 
+
+
+
   return (
-    <div className="ascii-card game-container progressive">
+    <div className="ascii-card game-container progressive" style={{ maxWidth: "100%", padding: 0 }}>
       <div className="game-header">
-        <span>[ SYSTEM_SNAKE_v1.0 ]</span>
-        <span>SCORE: {score.toString().padStart(4, "0")}</span>
+        <span>[ SYSTEM_SNAKE_v1.1 ]</span>
+        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+          <label style={{ fontSize: "0.6rem", display: "flex", alignItems: "center", gap: "4px", cursor: "pointer" }}>
+            <input 
+              type="checkbox" 
+              checked={lowPowerMode} 
+              onChange={() => setLowPowerMode(!lowPowerMode)} 
+              style={{ accentColor: "var(--text)" }}
+            />
+            LP_MODE
+          </label>
+          <span>SCORE: {score.toString().padStart(4, "0")}</span>
+        </div>
       </div>
       
-      <div className="game-screen">
+      <div className="game-screen" style={{ overflow: "hidden", padding: "10px 15px" }}>
         {isGameOver ? (
           <div className="game-overlay">
             <h2 className="glitch">GAME OVER</h2>
@@ -133,8 +175,20 @@ export default function AsciiSnake() {
             <button className="btn" onClick={() => setIsPaused(false)}>[ RESUME_PROCESS ]</button>
           </div>
         ) : null}
-        <pre className="game-grid">{renderGrid()}</pre>
+        <pre className="game-grid" style={{ 
+          fontSize: gridSize === 20 ? "clamp(0.6rem, 3.5vw, 1.1rem)" : "clamp(0.45rem, 2.2vw, 0.85rem)",
+          lineHeight: "1.1",
+          margin: "0 auto",
+          display: "block",
+          textAlign: "center",
+          opacity: 0.9
+        }}>
+          {renderGrid()}
+        </pre>
       </div>
+
+
+
 
       <div className="mobile-controls">
         <div className="control-row">
@@ -182,8 +236,9 @@ export default function AsciiSnake() {
 
       <div className="game-footer">
         <span className="hide-mobile">KEYS: ARROWS TO MOVE | SPACE TO PAUSE</span>
-        <span className="show-mobile">TOUCH CONTROLS ACTIVE</span>
+        <span className="show-mobile">TOUCH CONTROLS ACTIVE | {gridSize}x{gridSize}</span>
       </div>
     </div>
   );
 }
+

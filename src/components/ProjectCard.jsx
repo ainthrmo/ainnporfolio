@@ -15,7 +15,20 @@ export default function ProjectCard({ project, index = 0, baseDelay = 0 }) {
       )}
 
       <div>
-        <h3 style={{ fontSize: "1.1rem" }}>{project.title}</h3>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h3 style={{ fontSize: "1.1rem", margin: 0 }}>{project.title}</h3>
+          {project.status === "IN_PROGRESS" && (
+            <span style={{ 
+              fontSize: '0.6rem', 
+              color: '#ffcc00', 
+              border: '1px solid #ffcc00', 
+              padding: '2px 6px',
+              letterSpacing: '0.1em'
+            }}>
+              [ IN_PROGRESS ]
+            </span>
+          )}
+        </div>
         <p className="ascii-note">{project.description}</p>
       </div>
 

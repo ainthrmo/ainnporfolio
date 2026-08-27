@@ -24,8 +24,8 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
 }
+
 
 body {
   margin: 0;
@@ -246,6 +246,141 @@ h1, h2, h3, .logo-text, .ascii-title span {
 }
 
 /* Hero Section */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5vw 6vw;
+  background: #080808;
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  overflow: hidden;
+}
+
+
+.hero__scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.025) 0px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+.hero__status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #5dcaa5;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  margin: 0 0 20px;
+  z-index: 1;
+}
+
+.hero__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #5dcaa5;
+}
+
+.hero__name {
+  color: #f4f4f0;
+  font-size: clamp(2.75rem, 8vw, 5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin: 0 0 20px;
+  z-index: 1;
+  min-height: clamp(2.75rem, 8vw, 5rem);
+}
+
+.hero__cursor {
+  display: inline-block;
+  color: #5dcaa5;
+  margin-left: 2px;
+  opacity: 1;
+}
+
+.hero__cursor--blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.hero__tagline {
+  color: #8a8a86;
+  font-size: clamp(0.85rem, 1.4vw, 1rem);
+  max-width: 460px;
+  line-height: 1.6;
+  margin: 0 0 32px;
+  z-index: 1;
+}
+
+.hero__links {
+  display: flex;
+  gap: 28px;
+  z-index: 1;
+}
+
+.hero__link {
+  color: #8a8a86;
+  font-size: 13px;
+  text-decoration: none;
+  border-bottom: 1px solid #333;
+  padding-bottom: 3px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.hero__link:hover,
+.hero__link:focus-visible {
+  color: #f4f4f0;
+  border-color: #f4f4f0;
+}
+
+.hero__link--primary {
+  color: #5dcaa5;
+  border-color: #5dcaa5;
+}
+
+.hero__link--primary:hover,
+.hero__link--primary:focus-visible {
+  color: #7fd9b8;
+  border-color: #7fd9b8;
+}
+
+.hero__link:focus-visible {
+  outline: 2px solid #5dcaa5;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__cursor--blink {
+    animation: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    min-height: 90vh;
+    padding: 12vw 6vw;
+  }
+
+  .hero__links {
+    flex-direction: column;
+    gap: 14px;
+  }
+}
+
 .hero-shell {
   border: 1px solid var(--border);
   padding: clamp(1.5rem, 5vw, 2.5rem);
@@ -283,6 +418,7 @@ h1, h2, h3, .logo-text, .ascii-title span {
   min-width: 120px;
   text-align: center;
 }
+
 
 /* Cards & Grid */
 .ascii-title {
@@ -670,3 +806,252 @@ h1, h2, h3, .logo-text, .ascii-title span {
     font-size: 0.75rem;
   }
 }
+
+/* Generative Art Canvas */
+.canvas-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.canvas-container canvas.drawing {
+  border: 1px solid var(--border);
+  max-width: 100%;
+  height: auto;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+/* =============================================
+   ASCII NOTE utility class
+   ============================================= */
+
+.ascii-note {
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+  line-height: 1.6;
+  opacity: 0.85;
+  margin: 0 0 8px;
+}
+
+/* =============================================
+   MOSSQR FEATURED SECTION
+   ============================================= */
+
+.mossqr-feature-card {
+  border: 1px solid var(--border);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: var(--panel);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  position: relative;
+}
+
+/* Top label accent */
+.mossqr-feature-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--border);
+}
+
+.mossqr-feature-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.mossqr-feature-title {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  margin: 0 0 8px;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.mossqr-feature-tagline {
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  opacity: 0.75;
+  margin: 0;
+  line-height: 1.4;
+  max-width: 500px;
+}
+
+.mossqr-status-badge {
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  white-space: nowrap;
+  align-self: flex-start;
+  opacity: 0.6;
+}
+
+/* ASCII Screen Mock */
+.mossqr-visual-block {
+  display: flex;
+  justify-content: center;
+}
+
+.mossqr-screen-mock {
+  width: min(100%, 680px);
+  border: 1px solid var(--border);
+  font-size: 0.8rem;
+  overflow: hidden;
+}
+
+.mock-header {
+  background: var(--border);
+  color: var(--bg);
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.mock-body {
+  padding: 0;
+}
+
+.mock-dish-row {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px 16px;
+  align-items: center;
+  gap: 16px;
+  transition: background 0.2s;
+}
+
+.mock-dish-row--highlight {
+  background: rgba(255, 255, 255, 0.04);
+  border-left: 2px solid var(--border);
+}
+
+.mock-dish-img {
+  width: 60px;
+  height: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.55rem;
+  opacity: 0.4;
+  flex-shrink: 0;
+  letter-spacing: 0.1em;
+}
+
+.mock-dish-info {
+  flex: 1;
+}
+
+.mock-dish-name {
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.mock-dish-desc {
+  font-size: 0.7rem;
+  opacity: 0.5;
+  margin-bottom: 4px;
+}
+
+.mock-dish-price {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.mock-footer {
+  padding: 8px 16px;
+  font-size: 0.65rem;
+  opacity: 0.4;
+  letter-spacing: 0.1em;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Journey Steps */
+.mossqr-journey {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.mossqr-journey--large {
+  gap: 12px;
+}
+
+.mossqr-step {
+  border: 1px solid var(--border);
+  padding: 5px 12px;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.mossqr-journey--large .mossqr-step {
+  padding: 6px 14px;
+  font-size: 0.75rem;
+}
+
+.mossqr-arrow {
+  font-size: 0.8rem;
+  opacity: 0.5;
+}
+
+.mossqr-feature-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mossqr-feature-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Contact card */
+.contact-card {
+  border: 1px solid var(--border);
+  padding: clamp(1.2rem, 4vw, 2rem);
+  background: var(--panel);
+  max-width: 680px;
+}
+
+/* Responsive MOSSQR */
+@media (max-width: 640px) {
+  .mossqr-feature-title {
+    font-size: 2.2rem;
+  }
+
+  .mock-dish-row {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .mock-dish-img {
+    width: 44px;
+    height: 38px;
+    font-size: 0.45rem;
+  }
+
+  .mossqr-feature-card::before {
+    width: 3px;
+  }
+
+  .mossqr-step {
+    font-size: 0.6rem;
+    padding: 4px 8px;
+  }
+}
+

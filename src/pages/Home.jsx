@@ -1,118 +1,165 @@
+import { Link } from "react-router-dom";
+import SEO from "../components/SEO";
 import AboutSection from "../components/AboutSection";
-import ProjectsSection from "../components/ProjectsSection";
+import { Component as GenerativeArt } from "../components/ui/generative-art";
 import { playBlip } from "../utils/sounds";
+
+
 
 export default function Home() {
   return (
-    <main>
-      {/* HERO SECTION */}
-      <section className="section" id="home">
-        <div className="container hero-shell progressive" style={{ "--delay": "0s" }}>
-          <div style={{ fontSize: "0.7rem", opacity: 0.5, marginBottom: 12, display: "flex", justifyContent: "space-between" }}>
-            <span>Terminal - v1.0.4</span>
-            <span>[ _ □ x ]</span>
+    <>
+      <SEO
+        title="Aindra Moh — Designer & Developer"
+        description="Aindra Moh is a designer and developer building digital products, SaaS experiences, and interactive web experiences."
+        path="/"
+      />
+      <main>
+        {/* HERO SECTION */}
+        <section className="hero" id="home">
+          <div className="hero__scanlines" aria-hidden="true"></div>
+
+          <div className="hero__status">
+            <span className="hero__dot"></span>
+            <span>AVAILABLE FOR WORK // 2026</span>
           </div>
-          <div className="hero-console">
-            <span
-              className="typing"
-              style={{ "--delay": "0s", "--chars": "36", "--duration": "0.8s" }}
-            >
-              &gt; running ./portfolio --theme=ascii--
-            </span>
-            <span
-              className="typing"
-              style={{ "--delay": "0.15s", "--chars": "32", "--duration": "0.7s" }}
-            >
-              &gt; system: midnight monochrome
-            </span>
-          </div>
-          <h1 className="hero-title typing" style={{ "--delay": "0.2s", "--chars": "20" }}>
-            Aindra Moh
+
+          <h1 className="hero__name">
+            Aindra Moh<span className="hero__cursor hero__cursor--blink">_</span>
           </h1>
-          <p className="ascii-note" style={{ marginTop: 10, display: "flex", flexDirection: "column", gap: 6 }}>
-            <span className="typing block" style={{ "--delay": "0.3s", "--chars": "54" }}>
-              Junior web developer.
-            </span>
-            <span className="typing block" style={{ "--delay": "0.45s", "--chars": "66" }}>
-             I vibe code the modern web—skipping the boilerplate and moving straight to building high-performance, complex applications. From clean structures to full-scale digital ecosystems.
-            </span>
+
+          <p className="hero__tagline">
+            I design &amp; build digital products that solve real problems.
+            Product thinking, UX/UI, frontend engineering &amp; AI-powered experiences.
           </p>
-          <div className="hero-actions">
-            <a 
-              className="btn" 
-              href="mailto:wanderertidal@email.com"
+
+          <div className="hero__links">
+            <a
+              className="hero__link hero__link--primary"
+              href="mailto:ainthrmo@gmail.com"
               onMouseEnter={() => playBlip(660, 0.02)}
             >
-              Email
+              ainthrmo@gmail.com ↗
             </a>
-            <a 
-              className="btn" 
-              href="https://github.com/ainthrmo" 
-              target="_blank" 
+            <a
+              className="hero__link"
+              href="https://www.linkedin.com/in/aindra-moe-741851412/"
+              target="_blank"
               rel="noreferrer"
               onMouseEnter={() => playBlip(660, 0.02)}
             >
-              GitHub
+              LinkedIn ↗
+            </a>
+            <a
+              className="hero__link"
+              href="https://github.com/ainthrmo"
+              target="_blank"
+              rel="noreferrer"
+              onMouseEnter={() => playBlip(660, 0.02)}
+            >
+              GitHub ↗
             </a>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* REUSABLE SECTIONS */}
-      <AboutSection />
-      <ProjectsSection />
-
-      {/* CONTACT SECTION */}
-      <section className="section progressive" id="contact" style={{ "--delay": "0.1s" }}>
-        <div className="container">
-          <div className="ascii-title">
-            <span
-              className="typing"
-              style={{ "--delay": "0.15s", "--chars": "16", "--duration": "0.6s" }}
-            >
-              ┌─ CONTACT ─┐
-            </span>
-          </div>
-
-          <div className="contact-card progressive" style={{ "--delay": "0.2s" }}>
-            <p className="ascii-note" style={{ margin: 0, display: "flex", flexDirection: "column", gap: 6 }}>
-              <span className="typing block" style={{ "--delay": "0.3s", "--chars": "74" }}>
-                Want to collaborate or need a clean build shipped with precision?
+        {/* LAB / GENERATIVE ART EXPERIMENT */}
+        <section className="section progressive" id="lab" style={{ "--delay": "0.1s" }}>
+          <div className="container">
+            <div className="ascii-title" aria-hidden="true">
+              <span
+                className="typing"
+                style={{ "--delay": "0.15s", "--chars": "20", "--duration": "0.6s" }}
+              >
+                ┌─ SYSTEM_LAB ─┐
               </span>
-              <span className="typing block" style={{ "--delay": "0.4s", "--chars": "50" }}>
-                Drop a line.
-              </span>
+            </div>
+
+            <p className="ascii-note" style={{ opacity: 0.6, fontSize: "0.85rem", marginBottom: 20 }}>
+              &gt; EXPERIMENT: PROCEDURAL PHYSICS &amp; VELOCITY VECTOR CANVAS
             </p>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 20 }}>
-              <a 
-                className="btn" 
-                href="mailto:wanderertidal@email.com"
-                onMouseEnter={() => playBlip(660, 0.02)}
-              >
-                Email
-              </a>
-              <a 
-                className="btn" 
-                href="https://github.com/ainthrmo" 
-                target="_blank" 
-                rel="noreferrer"
-                onMouseEnter={() => playBlip(660, 0.02)}
-              >
-                GitHub
-              </a>
-              <a 
-                className="btn" 
-                href="https://linkedin.com/in/yourname" 
-                target="_blank" 
-                rel="noreferrer"
-                onMouseEnter={() => playBlip(660, 0.02)}
-              >
-                LinkedIn
-              </a>
+
+            <div className="ascii-card" style={{ padding: "clamp(1rem, 3vw, 2rem)" }}>
+              <GenerativeArt />
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 12, flexWrap: "wrap", gap: 10 }}>
+                <span style={{ fontSize: "0.7rem", opacity: 0.5 }}>
+                  Click canvas to restart simulation · Scroll to trigger animation loops
+                </span>
+                <Link
+                  to="/lab"
+                  className="btn"
+                  onMouseEnter={() => playBlip(660, 0.02)}
+                >
+                  [ Open Lab Page ]
+                </Link>
+              </div>
             </div>
           </div>
+        </section>
+
+        {/* ABOUT */}
+        <AboutSection />
+
+        {/* CONTACT SECTION */}
+        <section className="section progressive" id="contact" style={{ "--delay": "0.1s" }}>
+          <div className="container">
+            <div className="ascii-title">
+              <span
+                className="typing"
+                style={{ "--delay": "0.15s", "--chars": "16", "--duration": "0.6s" }}
+              >
+                ┌─ CONTACT ─┐
+              </span>
+            </div>
+
+            <div className="contact-card progressive" style={{ "--delay": "0.2s" }}>
+              <p className="ascii-note" style={{ margin: 0, display: "flex", flexDirection: "column", gap: 6 }}>
+                <span className="typing block" style={{ "--delay": "0.3s", "--chars": "38" }}>
+                  Have an idea worth building?
+                </span>
+                <span className="typing block" style={{ "--delay": "0.4s", "--chars": "26" }}>
+                  Drop a line.
+                </span>
+              </p>
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 20 }}>
+                <a
+                  className="btn"
+                  href="mailto:ainthrmo@gmail.com"
+                  onMouseEnter={() => playBlip(660, 0.02)}
+                >
+                  Email
+                </a>
+                <a
+                  className="btn"
+                  href="https://www.linkedin.com/in/aindra-moe-741851412/"
+                  target="_blank"
+                  rel="noreferrer"
+                  onMouseEnter={() => playBlip(660, 0.02)}
+                >
+                  LinkedIn
+                </a>
+                <a
+                  className="btn"
+                  href="https://github.com/ainthrmo"
+                  target="_blank"
+                  rel="noreferrer"
+                  onMouseEnter={() => playBlip(660, 0.02)}
+                >
+                  GitHub
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer style={{ borderTop: "1px solid var(--border)", padding: "24px 0", background: "var(--bg)" }}>
+        <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12, fontSize: "0.75rem", opacity: 0.6 }}>
+          <span>© {new Date().getFullYear()} Aindra Moh — Designer &amp; Developer</span>
+          <span>portfolio-ainn.vercel.app</span>
         </div>
-      </section>
-    </main>
+      </footer>
+    </>
   );
 }
+
+

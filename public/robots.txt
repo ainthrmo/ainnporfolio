@@ -1,0 +1,8 @@
+﻿User-agent: *
+Allow: /
+Allow: /projects
+Allow: /projects/mossqr
+Allow: /about
+Allow: /lab
+
+Sitemap: https://portfolio-ainn.vercel.app/sitemap.xml
